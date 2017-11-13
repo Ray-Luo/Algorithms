@@ -65,5 +65,49 @@ public class PracticeRecursion{
 		System.out.println("Move 1 from " + source + " to " + target);
 		hanoi2(n-1, extra, source, target);
 	}
+
+	public static int sumOfLinkedList(ListNode head){
+		if(head == null){
+			return 0;
+		}
+
+		return head.val + sumOfLinkedList(head.next);
+	}
+
+	public static ListNode removeNodes(ListNode head, int val){
+		if(head == null){
+			return null;
+		}
+
+		ListNode newHead = removeNodes(head.next, val);
+		if(head.val == val){
+			return newHead;
+		}else{
+			head.next = newHead;
+			return head;
+		}
+	}
+
+	public static ListNode reverse(ListNode head){
+		if(head == null){
+			return null;
+		}
+
+		ListNode dummy = new ListNode();
+		dummy.next = head;
+
+		return reverseHelper(dummy, head);
+	}
+
+	public static ListNode reverseHelper(ListNode cur, ListNode next){
+		if(next == null){
+			return cur;
+		}
+
+		ListNode tmp = next.next;
+		next.next = cur;
+		return reverseHelper(next, tmp);
+
+	}
 }
 
