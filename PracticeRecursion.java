@@ -88,26 +88,6 @@ public class PracticeRecursion{
 		}
 	}
 
-	public static ListNode reverse(ListNode head){
-		if(head == null){
-			return null;
-		}
-
-		ListNode dummy = new ListNode();
-		dummy.next = head;
-
-		return reverseHelper(dummy, head);
-	}
-
-	public static ListNode reverseHelper(ListNode cur, ListNode next){
-		if(next == null){
-			return cur;
-		}
-
-		ListNode tmp = next.next;
-		next.next = cur;
-		return reverseHelper(next, tmp);
-
-	}
+	
 }
 
