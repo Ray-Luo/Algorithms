@@ -38,7 +38,7 @@ public class EightQueen{
 		List<Integer> item = new ArrayList<>();
 		List<List<Integer>> result = new ArrayList<>();
 		solve2(board, result, item, 0);
-		//System.out.println("solve2 good");
+		System.out.println(result.size());
 		for(int i = 0; i < result.size(); i++){
 			System.out.println(result.get(i).toString());
 		}
@@ -79,7 +79,7 @@ public class EightQueen{
 			if(isLegal(board, row, col)){
 				board[row][col] = 'Q';
 				item.add(col);
-				solve1(board, item, row + 1);
+				solve2(board, result, item, row + 1);
 				board[row][col] = '.';
 				item.remove(item.size() - 1);
 			}
