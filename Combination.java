@@ -1,60 +1,42 @@
+import java.util.List;
+import java.util.ArrayList;
+
 public class Combination{
 	public static void main(String[] args){
-		
-	}
+		int[] num = {1, 2, 3};
+		List<List<Integer>> result = new ArrayList<>();
+		solve2(result, num, new ArrayList<Integer>(), 0);
+		System.out.println(result.toString());
 
-	public List<List<Integer>> combination(int[] nums){
-		List<List<Integer>> results = new ArrayList<>();
-		combine(results, nums, 0 , new ArrayList<Integer>());
-		return results;
 	}
-
-	public void combine(List<List<Integer>> results, int[] nums, int index, ArrayList<Integer> items){
-		if(index == nums.length){
-			results.add(items);
+	
+	public static void solve1(List<List<Integer>> result, int[] num, List<Integer> item, int index){
+		if(index == num.length){
+			result.add(new ArrayList<Integer>(item));
 			return;
 		}
+		item.add(num[index]);
+		solve1(result, num, item, index + 1);
+		item.remove(item.size() - 1);
 
-		ArrayList<Integer> newItems1 = new ArrayList<Integer>(items);
-		combine(results, nums, index + 1, newItems1);
-
-		ArrayList<Integer> newItems2 = new ArrayList<Integer>(items);
-		newItems.add(nums[index]);
-		combine(results, nums, index + 1, newItems2);
+		solve1(result, num, item, index + 1);
 	}
 
-	public List<List<Integer>> combine2(int[] nums){
-		List<List<Integer>> results = new ArrayList<>();
-		combination2(results, nums, 0, new ArrayList<Integer>());
-		return results;
-	}
-
-	public void combination2(List<List<Integer>> results, int[] nums, int index, ArrayList<Integer> items){
-		if(index == nums.length){
-			results.add(new ArrayList<Integer>(items));
+	public static void solve2(List<List<Integer>> result, int[] num, List<Integer> item, int index){
+		if(index == num.length){
+			result.add(new ArrayList<Integer>(item));
 			return;
 		}
-		
-		combination2(results, nums, index + 1, items);
-
-		items.add(nums[index]);
-		combination2(results, nums, index + 1, items);
-		items.remove(items.size() - 1);
-
-	}
-
-	public void combination2(List<List<Integer>> results, int[] nums, int index, ArrayList<Integer> items){
-		if(index == nums.length){
-			results.add(new ArrayList<Integer>(items));
-			return;
+			
+		for(int i = index; i < num.length; i++){
+			item.add(num[i]);
+			solve2(result, num, item, i + 1);
+			item.remove(item.size() - 1);
 		}
-		for(int i = index; i < nums.length; i++){
-			items.add(nums[i]);
-			combination2(results, nums, i + 1, items);
-			items.remove(items.size() - 1);
 
-		}	
-		combination(results, nums, nums.length, items);
-		
+		solve2(result, num, item, num.length);
 	}
+
+	
+
 }
