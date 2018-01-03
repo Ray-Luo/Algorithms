@@ -3,94 +3,64 @@ import java.util.List;
 
 public class Maze{
     public static void main(String[] args){
-        char[][] maze = {
+        char[][] board = {
 		{'.','.','X','.','.'},
 		{'X','.','.','X','X'},
 		{'.','X','.','.','.'},
 		{'.','X','X','.','.'},
 		{'.','X','.','X','.'}
 	};
-
-	//if(solve1(maze, 0, 0, 4, 4)){
-	//	System.out.println("solve1 Good");
-	//}
-
-	//if(solve2(maze, 0, 0, 4, 4)){
-	//	System.out.println("solve2 Good");
-	//}
-	
-	List<Character> path = new ArrayList<>();
-	if(solve3(maze, 0, 0, 4, 4, path)){
-		System.out.println("solve3 Good");
-		System.out.println(path.toString());
+	boolean result = exist(board, 0, 0, 4, 4);
+	System.out.println(Boolean.toString(result));
+        List<List<Character>> results = new ArrayList<>();
+	printPath(results, new ArrayList<Character>(), board, 0, 0, 4, 4);
+	System.out.println(results.size());
+	for (List<Character> item : results) {
+	    System.out.println(item.toString());
 	}
-
+        for (char[] item : board) {
+	    System.out.println(String.valueOf(item));
+	}
 
     }
 
-    public static boolean solve1(char[][] maze, int startX, int startY, int targetX, int targetY){
-    
-	if(startX == targetX && startY == targetY){
-		return true;
+    public static boolean exist(char[][] board, int startX, int startY, int targetX, int targetY) {
+        if (startX == targetX && startY == targetY) {
+	    return true;
 	}
-
-	if(startX >= maze.length || startY >= maze[0].length || startX < 0 || startY < 0 || maze[startX][startY] == 'X'){
-		return false;
+	if (startX < 0 || startX >= board.length || startY < 0 || startY >= board[0].length || board[startX][startY] == 'X') {
+	    return false;
 	}
-
-	
-	maze[startX][startY] = 'X';
-
-	return solve1(maze, startX + 1, startY, targetX, targetY) || solve1(maze, startX - 1, startY, targetX, targetY) || solve1(maze, startX, startY + 1, targetX, targetY) || solve1(maze, startX, startY - 1, targetX, targetY);
-
-    }
-
-    public static boolean solve2(char[][] maze, int startX, int startY, int targetX, int targetY){
-    	
-	if(startX >= maze.length || startY >= maze[0].length || startX < 0 || startY < 0 || maze[startX][startY] == 'X'){
-		return false;
+	int[] dx = {1, -1, 0, 0};
+	int[] dy = {0, 0, 1, -1};
+	board[startX][startY] = 'X';
+	for (int i = 0; i < 4; i++) {
+	    if (exist(board,startX + dx[i], startY + dy[i], targetX, targetY)) {
+	        return true;
+	    }
 	}
-
-	if(startX == targetX && startY == targetY){
-		return true;
-	}
-
-	
-	maze[startX][startY] = 'X';
-   	int[] xMove = {1, 0, -1, 0};
-	int[] yMove = {0, 1, 0, -1};
-
-	for(int i = 0; i < 4; i++){
-		if(solve2(maze, startX + xMove[i], startY + yMove[i], targetX, targetY)){
-			return true;
-		}
-	}
-    	return false;
-    }
-
-    public static boolean solve3(char[][] maze, int startX, int startY, int targetX, int targetY, List<Character> path){
-    	if(startX == targetX && startY == targetY){
-		return true;
-	}
-	
-	if(startX >= maze.length || startY >= maze[0].length || startX < 0 || startY < 0 || maze[startX][startY] == 'X'){
-		return false;
-	}
-	
-	maze[startX][startY] = 'X';
-	int[] xMove = {1, 0, -1, 0};
-	int[] yMove = {0, 1, 0, -1};
-	char[] dir = {'D', 'R', 'U', 'L'};
-
-	for(int i = 0; i < 4; i++){
-		path.add(dir[i]);
-		if(solve3(maze, startX + xMove[i], startY + yMove[i], targetX, targetY, path)){
-			return true;
-		}
-		path.remove(path.size() - 1);
-	}
+	board[startX][startY] = '.';
 	return false;
     }
 
-    
+    public static void printPath(List<List<Character>> results, List<Character> items, char[][] board, int startX, int startY, int targetX, int targetY) {
+        if (startX == targetX && startY == targetY) {
+	    results.add(new ArrayList<>(items));
+	    return;
+	}
+	if (startX < 0 || startX >= board.length || startY < 0 || startY >= board[0].length || board[startX][startY] == 'X') {
+	    return;
+	}
+	int[] dx = {1, -1, 0, 0};
+	int[] dy = {0, 0, 1, -1};
+	char[] dir = {'R', 'L', 'D', 'U'};
+	board[startX][startY] = 'X';
+	for (int i = 0; i < 4; i++) {
+	    items.add(dir[i]);
+	    printPath(results, items, board, startX + dx[i], startY + dy[i], targetX, targetY);
+	    items.remove(items.size() - 1);
+	}
+	board[startX][startY] = '.';
+    }
+               
 }

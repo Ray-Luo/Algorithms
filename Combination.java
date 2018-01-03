@@ -1,12 +1,15 @@
 import java.util.List;
 import java.util.ArrayList;
+import java.util.Arrays;
 
 public class Combination{
 	public static void main(String[] args){
-		int[] num = {1, 2, 3};
-		List<List<Integer>> result = new ArrayList<>();
-		solve2(result, num, new ArrayList<Integer>(), 0);
-		System.out.println(result.toString());
+		int[] nums = {1, 2, 2, 3, 3};
+		int target = 6;
+		Arrays.sort(nums);
+		List<List<Integer>> results = new ArrayList<>();
+		solve3(results, nums, new ArrayList<Integer>(), 0);
+		System.out.println(results.toString());
 
 	}
 	
@@ -35,6 +38,22 @@ public class Combination{
 		}
 
 		solve2(result, num, item, num.length);
+	}
+
+	public static void solve3(List<List<Integer>> results, int[] nums, List<Integer> items, int index) {
+	    if (index == nums.length) {
+	        results.add(new ArrayList<>(items));
+		return;
+	    }
+	    for (int i = index; i < nums.length; i++) {
+	        if (i > index && nums[i] == nums[i-1]) {
+		    continue;
+		}
+		items.add(nums[i]);
+		solve3(results, nums, items, i + 1);
+		items.remove(items.size() - 1);
+	    }
+            solve3(results, nums, items, nums.length);
 	}
 
 	
